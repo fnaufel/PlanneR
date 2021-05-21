@@ -1,12 +1,13 @@
 Package: PlanneR
-Title: An Amazing Shiny App
+Title: Gerador de calendário de curso
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "firstname",
-           family = "lastname",
+    person(given = "Fernando",
+           family = "Naufel",
            role = c("aut", "cre"),
-           email = "your@email.com")
-Description: What the package does (one paragraph).
+           email = "fnaufel@gmail.com")
+Description: Gera calendário de curso, com data, dia da semana, número da aula 
+  e tópico. Usa lista de feriados.
 License: GPL (>= 3)
 Imports: 
     attempt,
@@ -24,6 +25,6 @@ Suggests:
     spelling,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
-Language: en-US
+Language: pt-BR
 URL: https://github.com/fnaufel/PlanneR
 BugReports: https://github.com/fnaufel/PlanneR/issues
