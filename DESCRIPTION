@@ -1,5 +1,5 @@
 Package: PlanneR
-Title: Gerador de calendário de curso
+Title: Gerador de calendário de curso (aplicativo Shiny)
 Version: 0.0.0.9000
 Authors@R: 
     person(given = "Fernando",
