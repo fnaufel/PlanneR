@@ -15,7 +15,7 @@ app_ui <- function(request) {
     fluidPage(
       
       # Theme
-      theme = shinythemes::shinytheme('flatly'),
+      theme = shinythemes::shinytheme(chosen_theme),
       
       # Title and version no
       titlePanel(paste0("planneR   v", version_no)),
@@ -40,20 +40,23 @@ app_ui <- function(request) {
           # Weekdays of classes
           h3('Dias'),
           
-          checkboxGroupInput(
-            'days', 
-            label = NULL,
-            choices = list(
-              'D' = 1,
-              'S' = 2,
-              'T' = 3,
-              'Q' = 4,
-              'Q' = 5,
-              'S' = 6,
-              'S' = 7
+          div(
+            checkboxGroupInput(
+              'days', 
+              label = NULL,
+              choices = list(
+                'D' = 1,
+                'S' = 2,
+                'T' = 3,
+                'Q' = 4,
+                'Q' = 5,
+                'S' = 6,
+                'S' = 7
+              ),
+              selected = default_days,
+              inline = TRUE
             ),
-            selected = default_days,
-            inline = TRUE
+            class = 'centerDiv'
           ),
           
           # Holidays
@@ -86,8 +89,6 @@ app_ui <- function(request) {
             ),
             class = 'centerDiv'
           ),
-          
-          # hr(),
           
           # List of class topics
           tags$label(
