@@ -1,3 +1,21 @@
+# CSS ---------------------------------------------------------------------
+
+# TODO: move all this to css file
+
+# See https://stackoverflow.com/questions/114543/how-to-horizontally-center-a-div
+center_css <- 'display: table; margin: 0 auto;'
+flex_justify <- 'display: flex; justify-content: center;'
+
+
+# Default values ----------------------------------------------------------
+
+default_start <- lubridate::dmy('14/06/2021')
+default_end <- lubridate::dmy('25/09/2021')
+default_days <- c(3, 5)
+
+
+# Golem functions ---------------------------------------------------------
+
 #' Turn an R list into an HTML list
 #'
 #' @param list An R list
