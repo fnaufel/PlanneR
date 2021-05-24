@@ -1,6 +1,6 @@
 Package: PlanneR
 Title: Gerador de calendário de curso (aplicativo Shiny)
-Version: 0.0.0.9000
+Version: 2.0
 Authors@R: 
     person(given = "Fernando",
            family = "Naufel",
@@ -12,15 +12,19 @@ License: GPL (>= 3)
 Imports: 
     attempt,
     config (>= 0.3.1),
+    dplyr,
     DT,
     glue,
     golem (>= 0.3.1),
     gt,
     htmltools,
     lubridate,
+    magrittr,
     processx,
+    readr,
     shiny (>= 1.6.0),
-    shinythemes
+    shinythemes,
+    stringr
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1

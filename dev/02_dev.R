@@ -20,6 +20,8 @@ usethis::use_package( "thinkr" )
 usethis::use_package( "lubridate" )
 usethis::use_package( "shinythemes" )
 usethis::use_package( "gt" )
+usethis::use_package( "dplyr" )
+usethis::use_package( "stringr" )
 
 ## Add modules ----
 ## Create a module infrastructure in R/
@@ -28,8 +30,8 @@ golem::add_module( name = "name_of_module2" ) # Name of the module
 
 ## Add helper functions ----
 ## Creates fct_* and utils_*
-golem::add_fct( "helpers" ) 
-golem::add_utils( "helpers" )
+golem::add_fct( "build_gt_table" ) 
+golem::add_utils( "errors" )
 
 ## External resources
 ## Creates .js and .css files at inst/app/www
@@ -39,11 +41,11 @@ golem::add_css_file( "planneR" )
 
 ## Add internal datasets ----
 ## If you have data in your package
-usethis::use_data_raw( name = "my_dataset", open = FALSE ) 
+usethis::use_data_raw( name = "holidays.csv") 
 
 ## Tests ----
 ## Add one line by test you want to create
-usethis::use_test( "app" )
+usethis::use_test( "read_holidays_file" )
 
 # Documentation
 
