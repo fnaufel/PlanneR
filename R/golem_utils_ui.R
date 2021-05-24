@@ -4,11 +4,12 @@
 
 # See https://stackoverflow.com/questions/114543/how-to-horizontally-center-a-div
 center_css <- 'display: table; margin: 0 auto;'
-flex_justify <- 'display: flex; justify-content: center;'
+flex_justify <- 'display: flex; justify-content: space-evenly;'
 
 
 # Default values ----------------------------------------------------------
 
+version_no <- '2.0'
 default_start <- lubridate::dmy('14/06/2021')
 default_end <- lubridate::dmy('25/09/2021')
 default_days <- c(3, 5)

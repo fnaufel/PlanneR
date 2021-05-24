@@ -16,7 +16,7 @@ app_ui <- function(request) {
     fluidPage(
       theme = shinythemes::shinytheme('flatly'),
       
-      titlePanel("planneR   v1.03"),
+      titlePanel(paste0("planneR   v", version_no)),
       
       sidebarLayout(
         
@@ -25,7 +25,7 @@ app_ui <- function(request) {
           # Start and end dates for semester
           dateRangeInput(
             'begin_end_date', 
-            label = 'Duração do curso', 
+            label = 'Duração', 
             start = default_start,
             end = default_end,
             format = 'dd/mm/yyyy',
@@ -36,7 +36,7 @@ app_ui <- function(request) {
           # Weekdays of classes
           checkboxGroupInput(
             'days', 
-            label = 'Dias de aula',
+            label = 'Dias',
             choices = list(
               'D' = 1,
               'S' = 2,
@@ -85,7 +85,7 @@ app_ui <- function(request) {
           
           # List of class topics
           tags$label(
-            'Tópicos das aulas',
+            'Tópicos',
             class = 'control-label',
             'for' = 'topics'
           ),
@@ -100,7 +100,7 @@ app_ui <- function(request) {
           
           # Generate course plan
           tags$label(
-            'Plano de curso',
+            'Plano',
             class = 'control-label',
             'for' = 'build'
           ),
@@ -110,19 +110,12 @@ app_ui <- function(request) {
             actionButton(
               'build',
               label = 'Gerar',
-              icon = icon('calendar-alt'),
-              style = 'margin-right: 5px'
+              icon = icon('calendar-alt')
             ),
             actionButton(
               'dl',
               label = 'Baixar',
-              icon = icon('download'),
-              style = 'margin-left: 5px;'
-            ),
-            span(
-              icon('spinner'),
-              style = 'margin-right: 5px;',
-              class = 'invisible'
+              icon = icon('download')
             ),
             style = flex_justify
           )
