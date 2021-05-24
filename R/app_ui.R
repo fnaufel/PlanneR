@@ -12,10 +12,12 @@ app_ui <- function(request) {
     # Leave this function for adding external resources
     golem_add_external_resources(),
 
-        # Your application UI logic 
     fluidPage(
+      
+      # Theme
       theme = shinythemes::shinytheme('flatly'),
       
+      # Title and version no
       titlePanel(paste0("planneR   v", version_no)),
       
       sidebarLayout(
@@ -23,20 +25,24 @@ app_ui <- function(request) {
         sidebarPanel(
           
           # Start and end dates for semester
+          h3('Duração'),
+          
           dateRangeInput(
             'begin_end_date', 
-            label = 'Duração', 
+            label = NULL,
             start = default_start,
             end = default_end,
             format = 'dd/mm/yyyy',
             language = 'pt-BR',
             separator = '  até  '
-          ), 
+          ),
           
           # Weekdays of classes
+          h3('Dias'),
+          
           checkboxGroupInput(
             'days', 
-            label = 'Dias',
+            label = NULL,
             choices = list(
               'D' = 1,
               'S' = 2,
@@ -50,11 +56,9 @@ app_ui <- function(request) {
             inline = TRUE
           ),
           
-          hr(),
-          
           # Holidays
           tags$label(
-            'Feriados e recessos',
+            h3('Feriados e recessos'),
             class = 'control-label',
             'for' = 'holidays'
           ),
@@ -75,32 +79,34 @@ app_ui <- function(request) {
             )
           ),
           
-          actionButton(
-            'holidays',
-            'Ver / alterar feriados',
-            style = center_css
+          div(
+            actionButton(
+              'holidays',
+              'Ver / alterar feriados',
+            ),
+            class = 'centerDiv'
           ),
           
-          hr(),
+          # hr(),
           
           # List of class topics
           tags$label(
-            'Tópicos',
+            h3('Tópicos'),
             class = 'control-label',
             'for' = 'topics'
           ),
           
-          actionButton(
-            'fill_in_topics',
-            'Ver / alterar tópicos',
-            style = center_css
+          div(
+            actionButton(
+              'fill_in_topics',
+              'Ver / alterar tópicos',
+            ),
+            class = 'centerDiv'
           ),
-          
-          hr(),
           
           # Generate course plan
           tags$label(
-            'Plano',
+            h3('Plano'),
             class = 'control-label',
             'for' = 'build'
           ),
@@ -117,7 +123,7 @@ app_ui <- function(request) {
               label = 'Baixar',
               icon = icon('download')
             ),
-            style = flex_justify
+            class = 'buttonPanel'
           )
         ),
         

@@ -1,0 +1,12 @@
+
+/* See https://stackoverflow.com/questions/114543/how-to-horizontally-center-a-div */
+.centerDiv {
+  display: table; 
+  margin: 0 auto;
+}
+
+.buttonPanel {
+  display: flex; 
+  justify-content: space-evenly;
+}
+ 
