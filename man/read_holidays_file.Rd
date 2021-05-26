@@ -2,7 +2,7 @@
 % Please edit documentation in R/app_server.R
 \name{read_holidays_file}
 \alias{read_holidays_file}
-\title{read_holidays_file}
+\title{Read csv file containing holiday info. The data should be in `extdata/holidays.csv`}
 \usage{
 read_holidays_file()
 }

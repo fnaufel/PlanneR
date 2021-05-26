@@ -1,29 +1,10 @@
-# Import pipe -------------------------------------------------------------
-
-#' Pipe operator
-#'
-#' See \code{magrittr::\link[magrittr:pipe]{\%>\%}} for details.
-#'
-#' @name %>%
-#' @rdname pipe
-#' @keywords internal
-#' @export
-#' @importFrom magrittr %>%
-#' @usage lhs \%>\% rhs
-#' @param lhs A value or the magrittr placeholder.
-#' @param rhs A function call using the magrittr semantics.
-#' @return The result of calling `rhs(lhs)`.
-NULL
-
 
 # Functions ---------------------------------------------------------------
 
-#' read_holidays_file 
-#'
-#' @description Read csv file containing holiday info. The data should be in `extdata/holidays.csv`
+#' Read csv file containing holiday info. The data should be in `extdata/holidays.csv`
 #'
 #' @return A string with the file's contents
-#'
+#' @export
 read_holidays_file <- function() {
 
   readr::read_file(
@@ -42,7 +23,7 @@ read_holidays_file <- function() {
 load_holidays <- function(text) {
 
   # If text is empty, return NULL
-  if (str_trim(text) == '') {
+  if (stringr::str_trim(text) == '') {
     return(NULL)
   }
   
@@ -56,25 +37,25 @@ load_holidays <- function(text) {
         quoted_na = FALSE,
         trim_ws = TRUE
       ) %>%
-        mutate(
+        dplyr::mutate(
           name = stringr::str_squish(name),
           from = lubridate::as_date(from, format = '%d/%m/%y'),
           to = lubridate::as_date(to, format = '%d/%m/%y')
         )
     },
     error = function(e) {
-      
+
       error_modal('Lista de feriados tem um problema. Verifique.')
-      req(FALSE)
+      shiny::req(FALSE)
       return(NULL)
-      
+
     }
   )
   
   # If a from date is missing, error
   if (any(is.na(df$from))) {
     error_modal('Um ou mais feriados não tem data. Verifique.')
-    req(FALSE)
+    shiny::req(FALSE)
     return(NULL)
   }
   
@@ -83,53 +64,54 @@ load_holidays <- function(text) {
 }
 
 
-#' expand_holidays 
+#' Transform holidays df: expand multiple-day holidays to several rows
 #'
-#' @description Transform holidays df: expand multiple-day holidays to several rows
-#'
-#' @return Tibble with columns ???
+#' @param df Tibble produced by `load_holidays`
+#' @return Tibble with columns `name` and `date`
+#' @author Fernando Naufel
+#' @export
 #'
 expand_holidays <- function(df) {
   
-  # # Return NULL if df is empty
-  # if (is.null(df)) {
-  #   return(NULL)
-  # }
-  # 
-  # # Save rows that represent single-day holidays (minus `to`` column)
-  # df1 <- df %>%
-  #   filter(is.na(to)) %>%
-  #   select(-to) %>%
-  #   rename(date = from)
-  # 
-  # # Save rows that represent multiple-day holidays
-  # df2 <- df %>%
-  #   filter(!is.na(to))
-  # 
-  # # If there are no multiple-day holidays, return original df
-  # if (nrow(df2) == 0) {
-  #   return(df1)
-  # }
-  # 
-  # # Create list column with vector of dates for each holiday
-  # # and unnest this list column
-  # expanded_df <- df2 %>%
-  #   mutate(expanded = pmap(., ~ as_date(..2:..3))) %>%
-  #   select(-from, -to) %>%
-  #   unnest(cols = expanded) %>%
-  #   rename(date = expanded)
-  # 
-  # # Eliminate rows whose date already appear in df1
-  # expanded_df <- expanded_df %>%
-  #   filter(!(date %in% df1$date))
-  # 
-  # # Returned merged df
-  # df1 %>%
-  #   rbind(expanded_df) %>%
-  #   arrange(date)
+  # Return NULL if df is empty
+  if (is.null(df)) {
+    return(NULL)
+  }
 
-  NULL
-  
+  # Save rows that represent single-day holidays (minus `to` column)
+  df1 <- df %>%
+    dplyr::filter(is.na(to)) %>%
+    dplyr::select(-to) %>%
+    dplyr::rename(date = from)
+
+  # Save rows that represent multiple-day holidays
+  df2 <- df %>%
+    dplyr::filter(!is.na(to))
+
+  # If there are no multiple-day holidays, return original df
+  if (nrow(df2) == 0) {
+    return(df1)
+  }
+
+  # Create list column with vector of dates for each holiday
+  # and unnest this list column
+  expanded_df <- df2 %>%
+    dplyr::mutate(
+      expanded = purrr::pmap(., ~ lubridate::as_date(..2:..3))
+    ) %>%
+    dplyr::select(-from, -to) %>%
+    tidyr::unnest(cols = expanded) %>%
+    dplyr::rename(date = expanded)
+
+  # Eliminate rows whose date already appear in df1
+  expanded_df <- expanded_df %>%
+    dplyr::filter(!(date %in% df1$date))
+
+  # Returned merged df
+  df1 %>%
+    rbind(expanded_df) %>%
+    dplyr::arrange(date)
+
 }
 
 
@@ -169,8 +151,8 @@ build_gt_table <- function(initial_plan) {
 
 default_holidays_csv <- read_holidays_file()
 
-default_holidays <- 
-  load_holidays(default_holidays_csv) %>% 
+default_holidays <- default_holidays_csv %>% 
+  load_holidays() %>% 
   expand_holidays()
 
 default_topics <- NULL

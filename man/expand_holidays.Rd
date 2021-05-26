@@ -2,13 +2,19 @@
 % Please edit documentation in R/app_server.R
 \name{expand_holidays}
 \alias{expand_holidays}
-\title{expand_holidays}
+\title{Transform holidays df: expand multiple-day holidays to several rows}
 \usage{
 expand_holidays(df)
 }
+\arguments{
+\item{df}{Tibble produced by `load_holidays`}
+}
 \value{
-Tibble with columns ???
+Tibble with columns `name` and `date`
 }
 \description{
 Transform holidays df: expand multiple-day holidays to several rows
+}
+\author{
+Fernando Naufel
 }
