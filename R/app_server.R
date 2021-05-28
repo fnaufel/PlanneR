@@ -1,25 +1,38 @@
 
 # Functions ---------------------------------------------------------------
 
-#' Read csv file containing holiday info. The data should be in `extdata/holidays.csv`
-#'
-#' @return A string with the file's contents
-#' @export
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @author fnaufel
+#' @export 
+#' @importFrom readr read_file
 read_holidays_file <- function() {
 
   readr::read_file(
-    system.file('extdata', 'holidays.csv', package = 'PlanneR', mustWork = TRUE)
+    '/home/fnaufel/Development/00-Present/PlanneR/inst/extdata/holidays.csv'
   )
+  # readr::read_file(
+  #   system.file('extdata', 'holidays.csv', package = 'PlanneR', mustWork = TRUE)
+  # )
 
 }
 
 
-#' Create holidays data frame from multiline string
-#'
-#' @param text String
-#' @return A tibble with columns `name` (chr), `from` (date), `to` (date)
-#' @author Fernando Naufel
-#' @export
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param text PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @author fnaufel
+#' @export 
+#' @importFrom stringr str_trim str_squish
+#' @importFrom readr read_csv2 locale
+#' @importFrom dplyr mutate
+#' @importFrom lubridate as_date
+#' @importFrom shiny req
 load_holidays <- function(text) {
 
   # If text is empty, return NULL
@@ -64,13 +77,17 @@ load_holidays <- function(text) {
 }
 
 
-#' Transform holidays df: expand multiple-day holidays to several rows
-#'
-#' @param df Tibble produced by `load_holidays`
-#' @return Tibble with columns `name` and `date`
-#' @author Fernando Naufel
-#' @export
-#'
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param df PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @author fnaufel
+#' @export 
+#' @importFrom dplyr filter select rename mutate arrange
+#' @importFrom purrr pmap
+#' @importFrom lubridate as_date
+#' @importFrom tidyr unnest
 expand_holidays <- function(df) {
   
   # Return NULL if df is empty
@@ -115,17 +132,18 @@ expand_holidays <- function(df) {
 }
 
 
-#' Build tibble containing the plan
-#'
-#' @param default_start
-#' @param default_end
-#' @param default_days
-#' @param wday_names
-#' @param default_holidays
-#' @param default_topics
-#' @return
-#' @author Fernando Naufel
-#' @export
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param default_start PARAM_DESCRIPTION
+#' @param default_end PARAM_DESCRIPTION
+#' @param default_days PARAM_DESCRIPTION
+#' @param wday_names PARAM_DESCRIPTION
+#' @param default_holidays PARAM_DESCRIPTION
+#' @param default_topics PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @author fnaufel
+#' @export 
 build_plan <- function(default_start, default_end, default_days, wday_names,
                        default_holidays, default_topics) {
 
@@ -134,12 +152,13 @@ build_plan <- function(default_start, default_end, default_days, wday_names,
 }
 
 
-#' Render plan as a GT table
-#'
-#' @param initial_plan
-#' @return
-#' @author Fernando Naufel
-#' @export
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param initial_plan PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @author fnaufel
+#' @export 
 build_gt_table <- function(initial_plan) {
 
   NULL
@@ -151,6 +170,16 @@ build_gt_table <- function(initial_plan) {
 
 default_holidays_csv <- read_holidays_file()
 
+#' @title DATASET_TITLE
+#' @description DATASET_DESCRIPTION
+#' @format A data frame with 23 rows and 2 variables:
+#' \describe{
+#'   \item{\code{name}}{character COLUMN_DESCRIPTION}
+#'   \item{\code{date}}{double COLUMN_DESCRIPTION} 
+#'}
+#' @details DETAILS
+#' @author fnaufel
+"default_holidays"
 default_holidays <- default_holidays_csv %>% 
   load_holidays() %>% 
   expand_holidays()
@@ -182,16 +211,20 @@ initial_table <- build_gt_table(initial_plan)
 
 # Server ------------------------------------------------------------------
 
-#' The application server-side
-#' 
-#' @param input,output,session Internal parameters for {shiny}. 
-#'     DO NOT REMOVE.
-#' @import shiny
-#' @noRd
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param input PARAM_DESCRIPTION
+#' @param output PARAM_DESCRIPTION
+#' @param session PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @author fnaufel
+#' @export 
+#' @importFrom shiny reactiveValues
 app_server <- function( input, output, session ) {
 
   # Reactive values
-  rv <- reactiveValues(
+  rv <- shiny::reactiveValues(
     holidays_csv = default_holidays_csv,  # holidays as a csv string
     holidays_df = default_holidays,  # holidays dataframe
     plan = initial_plan,  # initial course plan, built on default values
