@@ -18,27 +18,27 @@ default_days <- c(3, 5)
 #' @noRd
 app_ui <- function(request) {
   
-  tagList(
+  shiny::tagList(
     
     # Leave this function for adding external resources
     golem_add_external_resources(),
 
-    fluidPage(
+    shiny::fluidPage(
       
       # Theme
       theme = shinythemes::shinytheme(chosen_theme),
       
       # Title and version no
-      titlePanel(paste0("planneR   v", version_no)),
+      shiny::titlePanel(paste0("planneR   v", version_no)),
       
-      sidebarLayout(
+      shiny::sidebarLayout(
         
-        sidebarPanel(
+        shiny::sidebarPanel(
           
           # Start and end dates for semester
-          h3('Duração'),
+          shiny::h3('Duração'),
           
-          dateRangeInput(
+          shiny::dateRangeInput(
             'begin_end_date', 
             label = NULL,
             start = default_start,
@@ -49,10 +49,10 @@ app_ui <- function(request) {
           ),
           
           # Weekdays of classes
-          h3('Dias'),
+          shiny::h3('Dias'),
           
-          div(
-            checkboxGroupInput(
+          shiny::div(
+            shiny::checkboxGroupInput(
               'days', 
               label = NULL,
               choices = list(
@@ -72,29 +72,29 @@ app_ui <- function(request) {
           
           # Holidays
           tags$label(
-            h3('Feriados e recessos'),
+            shiny::h3('Feriados e recessos'),
             class = 'control-label',
             'for' = 'holidays'
           ),
           
-          helpText(
+          shiny::helpText(
             'As datas padrão são as do',
-            a(
+            shiny::a(
               'calendário oficial da UFF.',
               href = 'http://www.uff.br/?q=calendarios',
               target = '_blank'
             ),
-            br(),
+            shiny::br(),
             'Os feriados municipais são os de',
-            a(
+            shiny::a(
               'Rio das Ostras.',
               href = 'http://www.uff.br/?q=cidade/rio-das-ostras',
               target = '_blank'
             )
           ),
           
-          div(
-            actionButton(
+          shiny::div(
+            shiny::actionButton(
               'holidays',
               'Ver / alterar feriados',
             ),
@@ -103,13 +103,13 @@ app_ui <- function(request) {
           
           # List of class topics
           tags$label(
-            h3('Tópicos'),
+            shiny::h3('Tópicos'),
             class = 'control-label',
             'for' = 'topics'
           ),
           
-          div(
-            actionButton(
+          shiny::div(
+            shiny::actionButton(
               'fill_in_topics',
               'Ver / alterar tópicos',
             ),
@@ -118,33 +118,33 @@ app_ui <- function(request) {
           
           # Generate course plan
           tags$label(
-            h3('Plano'),
+            shiny::h3('Plano'),
             class = 'control-label',
             'for' = 'build'
           ),
           
           # Buttons to generate and download plan
-          div(
-            actionButton(
+          shiny::div(
+            shiny::actionButton(
               'build',
               label = 'Gerar',
-              icon = icon('calendar-alt')
+              icon = shiny::icon('calendar-alt')
             ),
-            actionButton(
+            shiny::actionButton(
               'dl',
               label = 'Baixar',
-              icon = icon('download')
+              icon = shiny::icon('download')
             ),
             class = 'buttonPanel'
           )
         ),
         
-        mainPanel(
+        shiny::mainPanel(
           
           # GT table with plan
           gt::gt_output('plan'),
           
-          p(HTML('&nbsp;'))
+          shiny::p(shiny::HTML('&nbsp;'))
           
         )
         
@@ -167,13 +167,13 @@ app_ui <- function(request) {
 #' @noRd
 golem_add_external_resources <- function(){
   
-  add_resource_path(
+  golem::add_resource_path(
     'www', app_sys('app/www')
   )
  
   tags$head(
-    favicon(),
-    bundle_resources(
+    golem::favicon(),
+    golem::bundle_resources(
       path = app_sys('app/www'),
       app_title = 'PlanneR'
     )

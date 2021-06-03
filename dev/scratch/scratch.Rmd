@@ -336,25 +336,25 @@ expand_holidays <- function(df) {
 build_plan <- function(start, end, days, wday_names, holidays, topics) {
   
   # Generate ALL dates between start and end
-  all_dates <- as_date(start:end)
+  all_dates <- lubridate::as_date(start:end)
   
   # Create data frame (date, weekday name) and filter for class days
   df <- tibble(class_date = all_dates) %>% 
-    mutate(weekday = wday(class_date)) %>% 
+    mutate(weekday = lubridate::wday(class_date)) %>% 
     filter(weekday %in% days) %>% 
     mutate(weekday = wday_names[weekday])  
   
-  # If holidays is not empty
   if (!is.null(holidays)) {
-    # Join with holidays df to fill in holiday names on the right dates.
-    # distinct(class_date) is used because one date may be associated 
-    # with more than one holiday, and I want such a date to appear only once.
+    # If holidays df is not empty, join with holidays df to fill in holiday
+    # names on the right dates. I use distinct(class_date) because one date
+    # may be associated with more than one holiday, and I want such a date to
+    # appear only once.
     df <- df %>%
       left_join(holidays, by = c('class_date' = 'date')) %>%
       rename(contents = name) %>% 
       distinct(class_date, .keep_all = TRUE)
   } else {
-    # If holidays is empty, just add an empty contents column
+    # If holidays df is empty, just add an empty contents column
     df <- df %>% 
       mutate(contents = NA_character_)
   }
@@ -370,7 +370,7 @@ build_plan <- function(start, end, days, wday_names, holidays, topics) {
   # Class numbers
   numbers <- 1:n_classes
   
-  # Add class numbers only to non holidays
+  # Add class numbers only to non holidays (contents is NA)
   df <- df %>% 
     filter(is.na(contents)) %>% 
     mutate(class_no = numbers) %>% 
@@ -441,10 +441,12 @@ wday_names <- c(
   'SEX',
   'SAB'
 )
-topics <- NULL
+topics <- paste('Tópico', 1:29)
 holidays <- read_holidays_file() %>% 
   load_holidays() %>% 
   expand_holidays()
+
+build_plan(start, end, days, wday_names, holidays, topics)
 ```
 
 

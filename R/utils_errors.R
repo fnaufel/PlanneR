@@ -6,15 +6,15 @@
 #' @author Fernando Naufel
 feedback_modal <- function(msg, type, session) {
   
-  showModal(
-    modalDialog(
-      icon('exclamation-triangle'),
-      HTML('&nbsp;'),
-      strong(em(msg)),
+  shiny::showModal(
+    shiny::modalDialog(
+      shiny::icon('exclamation-triangle'),
+      shiny::HTML('&nbsp;'),
+      shiny::strong(shiny::em(msg)),
       title = type,
       size = 'm',
       easyClose = TRUE,
-      footer = modalButton('Fechar')
+      footer = shiny::modalButton('Fechar')
     ),
     session
   )
