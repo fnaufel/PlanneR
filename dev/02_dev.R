@@ -30,7 +30,17 @@ golem::add_module( name = "name_of_module2" ) # Name of the module
 
 ## Add helper functions ----
 ## Creates fct_* and utils_*
-golem::add_js_file( "script" )
+golem::add_fct( "read_holidays_file" ) 
+golem::add_fct( "load_holidays" ) 
+golem::add_fct( "expand_holidays" ) 
+golem::add_fct( "validate_all" ) 
+golem::add_fct( "build_plan" ) 
+golem::add_fct( "build_gt_table" ) 
+
+golem::add_utils( "errors" )
+ 
+## External resources
+## Creates .js and .css files at inst/app/wwwgolem::add_js_file( "script" )
 golem::add_js_handler( "handlers" )
 golem::add_css_file( "planneR" )
 
