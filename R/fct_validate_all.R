@@ -16,7 +16,7 @@ validate_all <- function(
   }
   
   # Course must not last more than a year
-  if (dates[1] %--% dates[2] > years(2) ) {
+  if (dates[1] %--% dates[2] > lubridate::years(2) ) {
     error_modal(
       'Curso não pode durar mais de 2 anos. Verifique as datas de início e fim.'
     )

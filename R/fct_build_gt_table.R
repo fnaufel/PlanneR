@@ -1,68 +1,68 @@
 build_gt_table <- function(plan) {
 
   plan %>% 
-    mutate(
+    dplyr::mutate(
       class_date = strftime(class_date, format = '%d/%m/%y')
     ) %>% 
-    gt() %>% 
-    fmt_missing(
-      columns = everything(),
+    gt::gt() %>% 
+    gt::fmt_missing(
+      columns = tidyselect::everything(),
       missing_text = ''
     ) %>% 
-    cols_label(
+    gt::cols_label(
       class_date = 'Data',
       weekday = 'Dia',
       class_no = 'Aula',
       contents = 'Conteúdo'
     ) %>% 
-    cols_align(
+    gt::cols_align(
       'right',
       columns = c('class_no', 'class_date')
     ) %>% 
-    tab_style(
+    gt::tab_style(
       style = list(
-        cell_text(weight = 'bold'),
-        cell_fill()
+        gt::cell_text(weight = 'bold'),
+        gt::cell_fill()
       ),
-      locations = cells_column_labels(
-        columns = everything()
+      locations = gt::cells_column_labels(
+        columns = tidyselect::everything()
       )
     ) %>% 
-    tab_style(
-      style = cell_text(size = 'large'),
+    gt::tab_style(
+      style = gt::cell_text(size = 'large'),
       locations = list(
-        cells_column_labels(
-          columns = everything()
+        gt::cells_column_labels(
+          columns = tidyselect::everything()
         ),
-        cells_body()
+        gt::cells_body()
       )
     ) %>% 
-    tab_style(
-      style = cell_text(indent = px(15)),
+    gt::tab_style(
+      style = gt::cell_text(indent = gt::px(15)),
       locations = list(
-        cells_column_labels(columns = c(weekday, contents)),
-        cells_body(columns = c(weekday, contents))
+        gt::cells_column_labels(columns = c(weekday, contents)),
+        gt::cells_body(columns = c(weekday, contents))
       )
     ) %>% 
-    tab_style(
-      style = cell_text(indent = px(5)),
+    gt::tab_style(
+      style = gt::cell_text(indent = gt::px(5)),
       locations = list(
-        cells_column_labels(columns = c(class_no)),
-        cells_body(columns = c(class_no))
+        gt::cells_column_labels(columns = c(class_no)),
+        gt::cells_body(columns = c(class_no))
       )
     ) %>% 
-    tab_style(
-      style = cell_text(
+    gt::tab_style(
+      style = gt::cell_text(
         style = 'italic',
         color = '#777777'
       ),
-      locations = cells_body(
+      locations = gt::cells_body(
         columns = 'contents',
         rows = is.na(class_no)
       )
     ) %>% 
-    tab_source_note(
-      md(
+    gt::tab_source_note(
+      gt::md(
         paste0(
           'Gerado por [planneR](https://fnaufel.shinyapps.io/planner/): ',
           'https://fnaufel.shinyapps.io/planner/.  ',

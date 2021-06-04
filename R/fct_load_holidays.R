@@ -1,7 +1,7 @@
 load_holidays <- function(text) {
 
   # If text is empty, return NULL
-  if (str_trim(text) == '') {
+  if (stringr::str_trim(text) == '') {
     return(NULL)
   }
   
@@ -24,7 +24,7 @@ load_holidays <- function(text) {
     error = function(e) {
       
       error_modal('Lista de feriados tem um problema. Verifique.')
-      req(FALSE)
+      shiny::req(FALSE)
       return(NULL)
       
     }
@@ -33,7 +33,7 @@ load_holidays <- function(text) {
   # If a from date is missing, error
   if (any(is.na(df$from))) {
     error_modal('Um ou mais feriados não tem data. Verifique.')
-    req(FALSE)
+    shiny::req(FALSE)
     return(NULL)
   }
   
