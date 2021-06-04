@@ -162,6 +162,16 @@ $(
 ```
 
 
+# To do
+
+* Continue coding functions in this Rmd
+
+* One function per file
+
+* Document
+
+* Test
+
 # Read holidays file
 
 Using absolute path only for this Rmd.
@@ -250,10 +260,8 @@ df
 ### Ignore extra columns
 
 ```{r}
-'
-Feriado 1; 1/1/2021; 2/1/2021; 3/1/2021
-Feriado 2; 4/1/2021
-' %>% 
+'Feriado 1; 1/1/2021; 2/1/2021; 3/1/2021
+Feriado 2; 4/1/2021' %>% 
   load_holidays()
 ```
 
@@ -334,6 +342,13 @@ expand_holidays <- function(df) {
 
 ```{r}
 build_plan <- function(start, end, days, wday_names, holidays, topics) {
+  
+  # There must be at least one weekday marked
+  if (length(days) == 0) {
+    error_modal('Pelo menos um dia da semana deve ser marcado.')
+    req(FALSE)
+    return(NULL)
+  }
   
   # Generate ALL dates between start and end
   all_dates <- lubridate::as_date(start:end)
@@ -431,7 +446,7 @@ build_plan <- function(start, end, days, wday_names, holidays, topics) {
 ```{r}
 start <- lubridate::dmy('14/06/2021')
 end <- lubridate::dmy('25/09/2021')
-days <- c(3, 5)
+days <- integer(0)
 wday_names <- c(
   'DOM',
   'SEG',

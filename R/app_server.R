@@ -168,46 +168,6 @@ build_gt_table <- function(initial_plan) {
 
 # Initial values ----------------------------------------------------------
 
-default_holidays_csv <- read_holidays_file()
-
-#' @title DATASET_TITLE
-#' @description DATASET_DESCRIPTION
-#' @format A data frame with 23 rows and 2 variables:
-#' \describe{
-#'   \item{\code{name}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{date}}{double COLUMN_DESCRIPTION} 
-#'}
-#' @details DETAILS
-#' @author fnaufel
-"default_holidays"
-default_holidays <- default_holidays_csv %>% 
-  load_holidays() %>% 
-  expand_holidays()
-
-default_topics <- NULL
-
-# Weekday abbrs in pt
-wday_names <- c(
-  'DOM',
-  'SEG',
-  'TER',
-  'QUA',
-  'QUI',
-  'SEX',
-  'SAB'
-)
-
-initial_plan <- build_plan(
-  default_start, # from ui
-  default_end,   # from ui
-  default_days,  # from ui
-  wday_names,
-  default_holidays,
-  default_topics
-)
-
-initial_table <- build_gt_table(initial_plan)
-
 
 # Server ------------------------------------------------------------------
 
@@ -222,7 +182,27 @@ initial_table <- build_gt_table(initial_plan)
 #' @export 
 #' @importFrom shiny reactiveValues
 app_server <- function( input, output, session ) {
-
+  
+  # Initial values
+  default_holidays_csv <- read_holidays_file()
+  
+  default_holidays <- default_holidays_csv %>% 
+    load_holidays() %>% 
+    expand_holidays()
+  
+  default_topics <- NULL
+  
+  initial_plan <- build_plan(
+    default_start, 
+    default_end,   
+    default_days,  
+    wday_names,
+    default_holidays,
+    default_topics
+  )
+  
+  initial_table <- build_gt_table(initial_plan)
+  
   # Reactive values
   rv <- shiny::reactiveValues(
     holidays_csv = default_holidays_csv,  # holidays as a csv string
