@@ -139,6 +139,10 @@ embed_yt <- function(code) {
   
 }
 
+library(lubridate)
+library(shiny)
+library(gt)
+
 ```
 
 ```{js javascript-init, echo=FALSE}
@@ -338,17 +342,59 @@ expand_holidays <- function(df) {
 ```
 
 
+# Validate all
+
+```{r}
+validate_all <- function(
+  dates,
+  days
+) {
+  
+  # Start or end dates must not be NA
+  if (is.null(dates) || any(is.na(dates))) {
+    error_modal('Preencha datas de início e de fim do curso.')
+    return(FALSE)
+  }
+  
+  # End must come before start
+  if (dates[1] >= dates[2]) {
+    error_modal('Data de início deve ser anterior à data de fim.')
+    return(FALSE)
+  }
+  
+  # Course must not last more than a year
+  if (dates[1] %--% dates[2] > years(2) ) {
+    error_modal(
+      'Curso não pode durar mais de 2 anos. Verifique as datas de início e fim.'
+    )
+    return(FALSE)
+  }
+  
+  # At least one weekday must be chosen
+  if (is.null(days)) {
+    error_modal('Marque pelo menos um dia da semana.')
+    return(FALSE)
+  }
+  
+  TRUE
+  
+}
+```
+
+```{r}
+start <- lubridate::dmy('14/06/2021')
+end <- lubridate::dmy('25/09/2021')
+days <- c(2, 4, 6)
+dates <- c(start, end)
+validate_all(dates, days)
+```
+
+
 # Build plan
 
 ```{r}
+# This function assumes everything is ok with the start, end, and days
 build_plan <- function(start, end, days, wday_names, holidays, topics) {
-  
-  # There must be at least one weekday marked
-  if (length(days) == 0) {
-    error_modal('Pelo menos um dia da semana deve ser marcado.')
-    req(FALSE)
-    return(NULL)
-  }
   
   # Generate ALL dates between start and end
   all_dates <- lubridate::as_date(start:end)
@@ -446,7 +492,7 @@ build_plan <- function(start, end, days, wday_names, holidays, topics) {
 ```{r}
 start <- lubridate::dmy('14/06/2021')
 end <- lubridate::dmy('25/09/2021')
-days <- integer(0)
+days <- c(2, 4, 6)
 wday_names <- c(
   'DOM',
   'SEG',
@@ -461,7 +507,102 @@ holidays <- read_holidays_file() %>%
   load_holidays() %>% 
   expand_holidays()
 
-build_plan(start, end, days, wday_names, holidays, topics)
+plan <- build_plan(start, end, days, wday_names, holidays, topics)
+plan
 ```
 
+
+# Build gt table
+
+```{r}
+build_gt_table <- function(plan) {
+
+  plan %>% 
+    mutate(
+      class_date = strftime(class_date, format = '%d/%m/%y')
+    ) %>% 
+    gt() %>% 
+    fmt_missing(
+      columns = everything(),
+      missing_text = ''
+    ) %>% 
+    cols_label(
+      class_date = 'Data',
+      weekday = 'Dia',
+      class_no = 'Aula',
+      contents = 'Conteúdo'
+    ) %>% 
+    cols_align(
+      'right',
+      columns = c('class_no', 'class_date')
+    ) %>% 
+    tab_style(
+      style = list(
+        cell_text(weight = 'bold'),
+        cell_fill()
+      ),
+      locations = cells_column_labels(
+        columns = everything()
+      )
+    ) %>% 
+    tab_style(
+      style = cell_text(size = 'large'),
+      locations = list(
+        cells_column_labels(
+          columns = everything()
+        ),
+        cells_body()
+      )
+    ) %>% 
+    tab_style(
+      style = cell_text(indent = px(15)),
+      locations = list(
+        cells_column_labels(columns = c(weekday, contents)),
+        cells_body(columns = c(weekday, contents))
+      )
+    ) %>% 
+    tab_style(
+      style = cell_text(indent = px(5)),
+      locations = list(
+        cells_column_labels(columns = c(class_no)),
+        cells_body(columns = c(class_no))
+      )
+    ) %>% 
+    tab_style(
+      style = cell_text(
+        style = 'italic',
+        color = '#777777'
+      ),
+      locations = cells_body(
+        columns = 'contents',
+        rows = is.na(class_no)
+      )
+    ) %>% 
+    tab_source_note(
+      md(
+        paste0(
+          'Gerado por [planneR](https://fnaufel.shinyapps.io/planner/): ',
+          'https://fnaufel.shinyapps.io/planner/.  ',
+          '\n',
+          'Desenvolvido por [fnaufel](https://fnaufel.github.io/site), ',
+          'com [R](https://cran.r-project.org/), ',
+          '[Shiny](https://shiny.rstudio.com/), ',
+          'e o pacote [gt.](https://gt.rstudio.com/)  ',
+          '\n',
+          '[Licença Creative Commons BY-NC-SA.]',
+          '(https://creativecommons.org/licenses/by-nc-sa/4.0/deed.pt_BR)  ',
+          '\n',
+          '[![](https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png)]',
+          '(https://creativecommons.org/licenses/by-nc-sa/4.0/deed.pt_BR)'
+        )
+      )
+    )
+  
+}
+```
+
+```{r}
+plan_table <- build_gt_table(plan)
+plan_table
+```
 

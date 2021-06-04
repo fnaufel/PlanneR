@@ -159,7 +159,7 @@ build_plan <- function(default_start, default_end, default_days, wday_names,
 #' @details DETAILS
 #' @author fnaufel
 #' @export 
-build_gt_table <- function(initial_plan) {
+build_gt_table <- function(plan) {
 
   NULL
 
@@ -183,9 +183,10 @@ build_gt_table <- function(initial_plan) {
 #' @importFrom shiny reactiveValues
 app_server <- function( input, output, session ) {
   
-  # Initial values
+  # Initial values --------------------------------------------------------
+
   default_holidays_csv <- read_holidays_file()
-  
+
   default_holidays <- default_holidays_csv %>% 
     load_holidays() %>% 
     expand_holidays()
@@ -203,7 +204,8 @@ app_server <- function( input, output, session ) {
   
   initial_table <- build_gt_table(initial_plan)
   
-  # Reactive values
+  # Reactive values -------------------------------------------------------
+
   rv <- shiny::reactiveValues(
     holidays_csv = default_holidays_csv,  # holidays as a csv string
     holidays_df = default_holidays,  # holidays dataframe
@@ -212,6 +214,7 @@ app_server <- function( input, output, session ) {
     topics_col = NULL,  # topics vector
     gt_table = initial_table  # GT table containing initial course plan
   )
-  
+
+  # ...  
   
 }
