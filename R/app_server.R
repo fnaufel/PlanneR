@@ -42,6 +42,25 @@ app_server <- function( input, output, session ) {
     width = gt::pct(100)
   )
   
+  # Handle button to edit / reset / save holidays ----------------------------
+  # Edit
+  observeEvent(
+    input$holidays,
+    handle_edit_holidays(rv)
+  )
+  
+  # Save
+  observeEvent(
+    input$save_holidays,
+    handle_save_holidays(rv, input)
+  )
+  
+  # Reset
+  observeEvent(
+    input$reset_holidays,
+    handle_reset_holidays(default_holidays_csv)
+  )
+  
   # Handle buttons to edit / save topics ---------------------------------------
   # Edit
   shiny::observeEvent(
@@ -55,7 +74,29 @@ app_server <- function( input, output, session ) {
     handle_save_topics(rv, input)
   )
   
-  # ...
 
+  # Handle button to build plan -------------------------------------------
+
+  observeEvent(
+    input$build,
+    handle_build_plan(rv, input)
+  )
+
+
+  # Handle download button ------------------------------------------------
+
+  observeEvent(
+    input$dl,
+    handle_download_plan()
+  )
+  
+  # Download HTML
+  output$save_html <- download_plan(rv$gt_table, '.html')
+  
+  # Download LaTeX
+  output$save_latex <- download_plan(rv$gt_table, '.tex')
+  
+  # Stop the app when user closes the browser window
+  session$onSessionEnded(stopApp)  
 
 }

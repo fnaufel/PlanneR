@@ -4,7 +4,7 @@
 \alias{feedback_modal}
 \title{Shows modal window of specified type}
 \usage{
-feedback_modal(msg, type, session)
+feedback_modal(msg, type, session = getDefaultReactiveDomain())
 }
 \arguments{
 \item{msg}{}

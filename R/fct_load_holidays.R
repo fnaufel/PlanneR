@@ -32,7 +32,7 @@ load_holidays <- function(text) {
   
   # If a from date is missing, error
   if (any(is.na(df$from))) {
-    error_modal('Um ou mais feriados não tem data. Verifique.')
+    error_modal('Erro na data de algum feriado. Verifique.')
     shiny::req(FALSE)
     return(NULL)
   }

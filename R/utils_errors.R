@@ -4,7 +4,7 @@
 #' @param type 
 #' @return None
 #' @author Fernando Naufel
-feedback_modal <- function(msg, type, session) {
+feedback_modal <- function(msg, type, session = getDefaultReactiveDomain()) {
   
   shiny::showModal(
     shiny::modalDialog(
@@ -26,9 +26,9 @@ feedback_modal <- function(msg, type, session) {
 #' @param msg 
 #' @return None
 #' @author Fernando Naufel
-error_modal <- function(msg, session) {
+error_modal <- function(msg) {
   
-  feedback_modal(msg, 'ERRO', session)
+  feedback_modal(msg, 'ERRO')
   
 }
 
@@ -37,9 +37,9 @@ error_modal <- function(msg, session) {
 #' @param msg 
 #' @return None
 #' @author Fernando Naufel
-warning_modal <- function(msg, session) {
+warning_modal <- function(msg) {
   
-  feedback_modal(msg, 'AVISO', session)
+  feedback_modal(msg, 'AVISO')
   
 }
 

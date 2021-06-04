@@ -70,9 +70,9 @@ build_plan <- function(start, end, days, wday_names, holidays, topics) {
         n_classes,
         ') < Tópicos (',
         n_topics,
-        '). ',
+        '). Foram excluídos ',
         difference,
-        ' tópicos não foram incluídos.'
+        ' tópicos.'
       )
     )
   }

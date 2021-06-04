@@ -4,7 +4,7 @@
 \alias{warning_modal}
 \title{Shows modal window with warning message}
 \usage{
-warning_modal(msg, session)
+warning_modal(msg)
 }
 \arguments{
 \item{msg}{}

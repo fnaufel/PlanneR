@@ -16,7 +16,7 @@
 
 # Apply dc to all fct files
 fs::dir_ls('R', regexp = 'fct_.*\\.R') %>% 
-  walk(dc)
+  purrr::walk(dc)
 
 
 ## Dependencies ----
@@ -27,7 +27,7 @@ usethis::use_package( "shinythemes" )
 usethis::use_package( "gt" )
 usethis::use_package( "dplyr" )
 usethis::use_package( "stringr" )
-usethis::use_package( "tibble" )
+usethis::use_package( "htmltools" )
 
 ## Add modules ----
 ## Create a module infrastructure in R/
@@ -43,7 +43,13 @@ golem::add_fct( "validate_all" )
 golem::add_fct( "build_plan" ) 
 golem::add_fct( "build_gt_table" ) 
 golem::add_fct( "handle_edit_topics.R" ) 
+golem::add_fct( "handle_edit_holidays" ) 
 golem::add_fct( "handle_save_topics.R" ) 
+golem::add_fct( "handle_save_holidays" ) 
+golem::add_fct( "handle_reset_holidays" ) 
+golem::add_fct( "handle_build_plan" ) 
+golem::add_fct( "handle_download_plan" ) 
+golem::add_fct( "download_plan" ) 
 
 golem::add_utils( "errors" )
  

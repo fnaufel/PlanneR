@@ -4,7 +4,7 @@
 \alias{error_modal}
 \title{Shows modal window with error message}
 \usage{
-error_modal(msg, session)
+error_modal(msg)
 }
 \arguments{
 \item{msg}{}

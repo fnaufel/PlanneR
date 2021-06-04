@@ -15,14 +15,6 @@ validate_all <- function(
     return(FALSE)
   }
   
-  # Course must not last more than a year
-  if (dates[1] %--% dates[2] > lubridate::years(2) ) {
-    error_modal(
-      'Curso não pode durar mais de 2 anos. Verifique as datas de início e fim.'
-    )
-    return(FALSE)
-  }
-  
   # At least one weekday must be chosen
   if (is.null(days)) {
     error_modal('Marque pelo menos um dia da semana.')
