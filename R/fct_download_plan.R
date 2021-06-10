@@ -1,19 +1,17 @@
 # Function to handle download of the plan, in several file formats.
 # This function also removes the modal dialog window.
-download_plan <- function(table, extension) {
+download_plan <- function(rv, extension) {
   shiny::downloadHandler(
     # Use function to ensure call to Sys.time()
     filename = function() {
       paste0(
-        format(Sys.time(), '%y-%m-%d'),
+        format(Sys.time(), '%Y.%m.%d_%Hh%Mm%Ss'),
         '-plano',
         extension
       )
     },
     content = function(file) {
-      temp <- tempfile(fileext = extension)
-      gt::gtsave(table, temp)
-      file.copy(temp, file)
+      gt::gtsave(rv$gt_table, file)
       shiny::removeModal()
     }
   )

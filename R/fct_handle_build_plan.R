@@ -36,20 +36,7 @@ handle_build_plan <- function(rv, input) {
     error = function(e) {
       error_modal(paste(e, 'Contate o desenvolvedor. (código 1)'))
       shiny::req(FALSE)
-    },
-    finally = {
-      # Reenable button
-      # enable('build')
-      # Hide spinner
-      # shinyjs::addClass(
-      #   id = 'build-feedback',
-      #   class = 'invisible'
-      # )
-      rv$gt_table <- build_gt_table(rv$plan)
-    },
-    error = function(e) {
-      error_modal(paste(e, 'Contate o desenvolvedor. (código 2)'))
-      shiny::req(FALSE)
-    }
+    }  
   )
+  
 }

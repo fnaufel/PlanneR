@@ -91,10 +91,10 @@ app_server <- function( input, output, session ) {
   )
   
   # Download HTML
-  output$save_html <- download_plan(rv$gt_table, '.html')
+  output$save_html <- download_plan(rv, '.html')
   
   # Download LaTeX
-  output$save_latex <- download_plan(rv$gt_table, '.tex')
+  output$save_latex <- download_plan(rv, '.tex')
   
   # Stop the app when user closes the browser window
   session$onSessionEnded(stopApp)  
