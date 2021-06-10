@@ -183,13 +183,13 @@ Using absolute path only for this Rmd.
 ```{r}
 read_holidays_file <- function() {
   
-  readr::read_file(
-    '/home/fnaufel/Development/00-Present/PlanneR/inst/extdata/holidays.csv'
-  )
-
   # readr::read_file(
-  #   system.file('extdata', 'holidays.csv', package = 'PlanneR', mustWork = TRUE)
+  #   '/home/fnaufel/Development/00-Present/PlanneR/inst/extdata/holidays.csv'
   # )
+
+  readr::read_file(
+    system.file('extdata', 'holidays.csv', package = 'PlanneR', mustWork = TRUE)
+  )
 
 }
 ```
