@@ -1,6 +1,6 @@
 Package: PlanneR
 Title: Gerador de calendário de curso (aplicativo Shiny)
-Version: 2.0
+Version: 2.1
 Authors@R: 
     person(given = "Fernando",
            family = "Naufel",
@@ -31,7 +31,7 @@ Imports:
     tidyselect
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Suggests: 
     spelling,
     testthat (>= 3.0.0)
